@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Productivity Flowchart</title>
+    <style>
+        :root {
+            --bg: #0b162a;
+            --teal: #00bcd4;
+            --navy-light: #162a4a;
+            --white: #ffffff;
+            --transition: 1.2s cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background-color: var(--bg);
+            color: var(--white);
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+
+        /* The "World" Container */
+        #viewport {
+            width: 100vw; height: 100vh;
+            perspective: 1000px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* The Camera that zooms and pans */
+        #camera {
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform var(--transition);
+            width: 0; height: 0;
+        }
+
+        /* Common Node Styling */
+        .node {
+            position: absolute;
+            width: 300px;
+            padding: 30px;
+            background: var(--navy-light);
+            border: 2px solid var(--teal);
+            text-align: center;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.2);
+        }
+
+        .hexagon {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            padding: 50px 30px;
+        }
+
+        h2 { color: var(--teal); margin-top: 0; font-size: 1.2rem; }
+        p { font-size: 0.9rem; line-height: 1.4; opacity: 0.9; }
+		li { font-size: 0.7rem; line-height: 1.1; opacity: 0.9; }
+
+        .btn-group { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+        
+        button {
+            background: transparent;
+            border: 1px solid var(--teal);
+            color: var(--teal);
+            padding: 10px 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: var(--teal);
+            color: var(--bg);
+        }
+
+        /* Connections (Simple Lines) */
+        .line {
+            position: absolute;
+            background: var(--teal);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        /* Positions in "Virtual Space" */
+        #start { top: 0; left: 0; }
+        #step1 { top: 400px; left: 600px; }
+        #step2 { top: 800px; left: 0px; }
+        #step3 { top: 1200px; left: 600px; }
+        #step4 { top: 1600px; left: 1200px; }
+	    #step5 { top: 2400px; left: 1200px; }	
+        #final { top: 2000px; left: 600px; }
+		#step6 { top: 2800px; left: 600px; }	
+		#step7  { top: 3200px; left: 600px; }
+		#step8 { top: 3600px; left: 600px; }
+
+    </style>
+</head>
+<body>
+
+<div id="viewport">
+    <div id="camera">
+        
+        <div id="start" class="node">
+            <h2>Time to Integrate</h2>
+            <p>How would you like to connect to City National Bank?</p>
+            <div class="btn-group">
+                <button onclick="zoomTo('step7')">SFTP</button>
+                <button onclick="zoomTo('step2')">API</button>
+            </div>
+        </div>
+
+        <div id="step1" class="node hexagon">
+            <h2>IMPORTANT WORK?</h2>
+            <p>Do you actually have critical tasks to finish right now?</p>
+            <div class="btn-group">
+                <button onclick="zoomTo('step2')">Yes</button>
+                <button onclick="zoomTo('start')">No</button>
+            </div>
+        </div>
+
+        <div id="step2" class="node">
+            <h2>API Connection</h2>
+            <p>Which flavor of API?</p>
+            <div class="btn-group">
+                <button onclick="zoomTo('step3')">SOAP 1.1/1.2</button>
+                <button onclick="zoomTo('step4')">Restful</button>
+            </div>
+        </div>
+
+        <div id="step3" class="node">
+            <h2>SOAP 1.1/1.2</h2>
+            <p>The SOAP platform requires the following:</p>
+			<li>WS-Addressing (a:Action, a:To)</li>
+			<li>WS-Security header</li>
+			<li>X.509 BinarySecurityToken</li>
+			<li>Timestamp</li>
+			<li>XML Signature (RSA-SHA1)</li>
+			<li>Encrypted symmetric key (RSA-1_5</li>
+			<li>Encrypted SOAP body (AES-256-CBC)</li>
+			<p></p>
+            <button onclick="zoomTo('step5')">We can do this</button>
+        </div>
+		
+		  <div id="step5" class="node">
+            <h2>Available Format</h2>
+            <p>XML</p>
+            <button onclick="zoomTo('step6')">Services Available</button>
+        </div>
+		
+		<div id="step6" class="node">
+            <h2>Available Services</h2>
+            <p>XML IFX Format. XML Schema</p>
+			<li>ACH (Clearing House)</li>
+			<li>Domestic/International Wires</li>
+			<li>Outsourced Check Print (OCP)</li>
+			<li>Account Transfers</li>
+			<li>Image Cash Letter (ICL)</li>
+			<li>CNS (Purchases and Redemptions)</li>
+			<li>Prior Day</li>
+			<li>Current Day</li>
+			<p></p>
+            <button onclick="zoomTo('step6')">Give me the schema</button>
+        </div>
+
+        <div id="step4" class="node">
+            <h2>THE SLUMP</h2>
+            <p>Break the work into 5-minute chunks. Just start one.</p>
+            <button onclick="zoomTo('final')">Moving</button>
+        </div>
+
+        <div id="final" class="node">
+            <h2>GO WORK</h2>
+            <p>Clarity achieved. The flowchart is over. Get to it!</p>
+            <button onclick="zoomTo('start')">Restart</button>
+        </div>
+		
+		<div id="step7" class="node">
+            <h2>SFTP (Secure File Transfer Protocol)</h2>
+            <p>CNB SFTP is hosted and requires SSH2 authentication</p>
+			<li>URL: mway.cnb.com port:22</li>
+			<li>SSH2 Key Types: RSA 2048, 4092; Ed25519 255; ECDSA 256, 384, 521</li>
+            <button onclick="zoomTo('step8')">Give me the Formats</button>
+        </div>
+		
+		<div id="step8" class="node">
+            <h2>Formats Availble via SFTP</h2>
+            <p>Please see below formats available via SFTP</p>
+            <button onclick="zoomTo('start')">XML (IFX)</button>
+			<button onclick="zoomTo('start')">CSV</button>
+			<button onclick="zoomTo('start')">ISO20022</button>
+			 <p></p>
+			<button onclick="zoomTo('start')">X937</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function zoomTo(elementId) {
+        const element = document.getElementById(elementId);
+        const camera = document.getElementById('camera');
+        
+        // Get coordinates
+        const top = element.offsetTop;
+        const left = element.offsetLeft;
+
+        // Prezi-style movement: Translate the camera to the opposite direction
+        // and add a slight rotation/zoom for effect
+        camera.style.transform = `translate3d(${-left}px, ${-top}px, 500px) `;
+		//rotateZ(${Math.random() * 4 - 2}deg)`;
+    }
+    
+    // Initial center
+    window.onload = () => zoomTo('start');
+</script>
+
+</body>
+</html>
