@@ -1,0 +1,124 @@
+        :root {
+            /* Using a clean, professional palette inspired by your example */
+            --bg-page: #f0f4f8;
+            --card-bg: #ffffff;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --teal-accent: #00bcd4; /* Accent color for buttons/links */
+            --transition: 1.2s cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', -apple-system, system-ui, sans-serif;
+            overflow: hidden;
+        }
+
+        /* --- Viewport & Camera (Logic remains unchanged) --- */
+        #viewport {
+            width: 100vw; height: 100vh;
+            perspective: 1000px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        #camera {
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform var(--transition);
+            width: 0; height: 0;
+        }
+
+        /* --- THE CARD (NODE) --- */
+        .node {
+            position: absolute;
+            /* Widened significantly to accommodate the horizontal split layout */
+            width: 720px; 
+            background: var(--card-bg);
+            transform: translate(-50%, -50%);
+            
+            /* Clean styling inspired by your example */
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            overflow: hidden; /* Clips the image to the card's corners */
+            
+            /* KEY: Use Flexbox to put image left, text right */
+            display: flex; 
+            flex-direction: row; 
+            align-items: stretch; /* Ensures both sides are the same height */
+        }
+
+        /* --- THE IMAGE PANEL (LEFT SIDE) --- */
+        .node-left {
+            flex: 0 0 45%; /* Image takes up 45% of the card width */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .node-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Important: fills the panel without stretching */
+            position: absolute;
+            top: 0; left: 0;
+        }
+
+        /* --- THE TEXT PANEL (RIGHT SIDE) --- */
+        .node-right {
+            flex: 1; /* Content takes up the remaining 55% */
+            padding: 40px; /* Generous padding like your example */
+            display: flex;
+            flex-direction: column; /* Stack H2, P, buttons vertically */
+            justify-content: space-between; /* Pushes content up, buttons down */
+        }
+
+        /* --- Typography --- */
+        h2 { 
+            color: var(--text-primary); 
+            margin: 0 0 15px 0; 
+            font-size: 1.6rem; 
+            font-weight: 700;
+        }
+        
+        p { 
+            font-size: 1rem; 
+            line-height: 1.7; 
+            color: var(--text-secondary); 
+            margin: 0 0 20px 0; 
+        }
+        
+        li { 
+            font-size: 0.9rem; 
+            line-height: 1.6; 
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        /* --- Button Alignment --- */
+        .btn-group { 
+            display: flex; 
+            justify-content: flex-end; /* Align buttons to the right, like 'Next' */
+            gap: 12px; 
+            margin-top: auto; /* Pushes button group to the bottom of the text panel */
+            padding-top: 20px;
+        }
+        
+        button {
+            background: var(--teal-accent);
+            border: none;
+            color: #ffffff;
+            padding: 12px 24px;
+            cursor: pointer;
+            text-transform: none;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
