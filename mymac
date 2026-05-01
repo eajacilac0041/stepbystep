@@ -1,0 +1,236 @@
+Sub MoveInvoiceDataToCheck_AndDelete()
+
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+    
+    Dim lastRow As Long
+    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    
+    Dim i As Long
+    Dim j As Long
+    Dim checkRow As Long
+    Dim combinedText As String
+    
+    Dim randID As String
+    Dim j1 As Integer
+    
+    ' Loop from bottom to top to safely delete rows
+    For i = lastRow To 2 Step -1 ' assuming row 1 is header
+        
+        ' Check if current row is an invoice row
+        If LCase(Trim(ws.Cells(i, "A").Value)) Like "*invoice*" Then
+            
+            ' Combine values from X, AB, AC
+            combinedText = ws.Cells(i, "X").Value & " | " & _
+                           ws.Cells(i, "AB").Value & " | " & _
+                           ws.Cells(i, "AC").Value
+            
+            ' Look upward for the nearest "check" row
+            checkRow = 0
+            For j = i - 1 To 1 Step -1
+                If LCase(Trim(ws.Cells(j, "A").Value)) Like "*check*" Then
+                    checkRow = j
+                    Exit For
+                End If
+            Next j
+            
+            ' If a check row is found, append to column AI
+            If checkRow > 0 Then
+                If ws.Cells(checkRow, "AI").Value <> "" Then
+                    ws.Cells(checkRow, "AI").Value = ws.Cells(checkRow, "AI").Value & " || " & combinedText
+                Else
+                    ws.Cells(checkRow, "AI").Value = combinedText
+                End If
+            End If
+            
+            ' Delete the invoice row AFTER processing
+            ws.Rows(i).Delete
+            
+        End If
+        
+    Next i
+
+    
+    ' Function to generate random 16-character ID
+    Dim chars As String
+    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    
+
+    
+    ' 1. Insert two new columns at A and B
+    ws.Columns("A:B").Insert Shift:=xlToRight
+    
+    ' Find last row after insert
+    lastRow = ws.Cells(ws.Rows.Count, "C").End(xlUp).Row
+    
+    ' 2. Populate Column A (unique ID) and Column B ("siteid")
+    For i = 2 To lastRow ' assuming row 1 is header
+        
+        randID = ""
+        For j1 = 1 To 16
+            randID = randID & Mid(chars, Int((Len(chars) * Rnd) + 1), 1)
+        Next j1
+        
+        ws.Cells(i, "A").Value = randID
+        ws.Cells(i, "B").Value = "siteid"
+        ws.Cells(i, "I").Value = "DDA"
+        ws.Cells(i, "D").Value = "123456789"
+        ws.Cells(i, "E").Value = "ABA"
+        ws.Cells(i, "AY").Value = "USPS"
+        ws.Cells(i, "AZ").Value = "SendToPayee"
+    Next i
+
+    ' Optional: label headers
+    ws.Cells(1, "A").Value = "TranRef"
+    ws.Cells(1, "B").Value = "SiteId"
+    
+    ' 3. Move columns
+    ' After inserting A:B, original columns shifted:
+    ' Original H is now J
+    
+    ' Move "now H" (which is actually column J) to D
+    ws.Columns("H").Cut
+    ws.Columns("D").Insert Shift:=xlToRight
+    
+    ' Move next "now H" (again J after shift) to E
+    ws.Columns("H").Cut
+    ws.Columns("E").Insert Shift:=xlToRight
+    
+    ws.Columns("I").Cut
+    ws.Columns("F").Insert Shift:=xlToRight
+    
+    ws.Columns("K").Cut
+    ws.Columns("G").Insert Shift:=xlToRight
+    
+    ws.Columns("H").Cut
+    ws.Columns("G").Insert Shift:=xlToRight
+    
+    ws.Columns("I").Cut
+    ws.Columns("H").Insert Shift:=xlToRight
+    
+    ws.Columns("AY").Cut
+    ws.Columns("I").Insert Shift:=xlToRight
+    
+    ws.Columns("AZ").Cut
+    ws.Columns("J").Insert Shift:=xlToRight
+    
+    ws.Columns("AJ").Cut
+    ws.Columns("K").Insert Shift:=xlToRight
+    
+    ws.Columns("AL").Cut
+    ws.Columns("K").Insert Shift:=xlToRight
+    
+    ws.Columns("M").Cut
+    ws.Columns("L").Insert Shift:=xlToRight
+    
+    ws.Columns("T").Cut
+    ws.Columns("M").Insert Shift:=xlToRight
+    
+    ws.Columns("V").Cut
+    ws.Columns("N").Insert Shift:=xlToRight
+
+    ws.Columns("W").Cut
+    ws.Columns("O").Insert Shift:=xlToRight
+
+    ws.Columns("BA").Cut
+    ws.Columns("P").Insert Shift:=xlToRight
+    
+    ws.Columns("Y").Cut
+    ws.Columns("Q").Insert Shift:=xlToRight
+    
+    ws.Columns("Z").Cut
+    ws.Columns("R").Insert Shift:=xlToRight
+    
+    ws.Columns("AA").Cut
+    ws.Columns("S").Insert Shift:=xlToRight
+    
+    ws.Columns("AB").Cut
+    ws.Columns("T").Insert Shift:=xlToRight
+    
+    ws.Columns("AN").Cut
+    ws.Columns("U").Insert Shift:=xlToRight
+    
+    ws.Columns("AP").Cut
+    ws.Columns("V").Insert Shift:=xlToRight
+    
+    ws.Columns("AE").Cut
+    ws.Columns("W").Insert Shift:=xlToRight
+    
+    ws.Columns("AF").Cut
+    ws.Columns("X").Insert Shift:=xlToRight
+    
+    ws.Columns("BG").Cut
+    ws.Columns("Y").Insert Shift:=xlToRight
+    
+    ws.Columns("BG").Cut
+    ws.Columns("Z").Insert Shift:=xlToRight
+    
+    ws.Columns("BG").Cut
+    ws.Columns("AA").Insert Shift:=xlToRight
+     
+    ws.Columns("BG").Cut
+    ws.Columns("AB").Insert Shift:=xlToRight
+     
+    ws.Columns("BG").Cut
+    ws.Columns("AC").Insert Shift:=xlToRight
+    
+    ws.Columns("BG").Cut
+    ws.Columns("AD").Insert Shift:=xlToRight
+
+    ws.Columns("BH").Cut
+    ws.Columns("AE").Insert Shift:=xlToRight
+    
+Range("AF1").Select
+    Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+    Selection.EntireColumn.Delete
+    
+   
+    Rows(lastRow).Delete
+    
+
+    
+ws.Cells(1, "C").Value = "SettlementMethod"
+ws.Cells(1, "D").Value = "PayerName"
+ws.Cells(1, "E").Value = "PayerAcctId"
+ws.Cells(1, "F").Value = "PayerAcctType"
+ws.Cells(1, "G").Value = "PayerBankId"
+ws.Cells(1, "H").Value = "PayerBankIdType"
+ws.Cells(1, "I").Value = "DeliveryMethod"
+ws.Cells(1, "J").Value = "DeliveryInstruction"
+ws.Cells(1, "K").Value = "ChkNum"
+ws.Cells(1, "L").Value = "CheckMemo"
+ws.Cells(1, "M").Value = "PayeeName"
+ws.Cells(1, "N").Value = "PayeeAddr1"
+ws.Cells(1, "O").Value = "PayeeAddr2"
+ws.Cells(1, "P").Value = "PayeeAddr3"
+ws.Cells(1, "Q").Value = "PayeeCity"
+ws.Cells(1, "R").Value = "PayeeStateProv"
+ws.Cells(1, "S").Value = "PayeePostalCode"
+ws.Cells(1, "T").Value = "PayeeCountry"
+ws.Cells(1, "U").Value = "Memo"
+ws.Cells(1, "V").Value = "BillingAcct"
+ws.Cells(1, "W").Value = "Amt"
+ws.Cells(1, "X").Value = "DueDt"
+ws.Cells(1, "Y").Value = "InvoiceNumber"
+ws.Cells(1, "Z").Value = "InvoiceAmount"
+ws.Cells(1, "AA").Value = "InvoiceDate"
+ws.Cells(1, "AB").Value = "InvoiceDiscount"
+ws.Cells(1, "AC").Value = "InvoiceAdjustment"
+ws.Cells(1, "AD").Value = "TxnCreators"
+ws.Cells(1, "AE").Value = "Version"
+
+Columns("X:X").NumberFormat = "yyyy-mm-dd"
+
+
+MsgBox "Fields added and columns rearranged!", vbInformation
+
+End Sub
+
+
+
+
+
+
+
+
+
